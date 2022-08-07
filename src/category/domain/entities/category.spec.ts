@@ -1,10 +1,16 @@
 import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
 import { UniqueEntityId } from "../../../@seedwork/domain/value-object/unique-entity-id.vo";
+
 describe("Category Unit Tests", () => {
+  beforeEach(() => {
+    Category.validate = jest.fn();
+  });
+
   test("constructor of category", () => {
     let category = new Category({ name: "Movie" });
     let props = omit(category.props, "created_at");
+    expect(Category.validate).toHaveBeenCalled();
     expect(props).toStrictEqual({
       name: "Movie",
       description: null,
@@ -67,7 +73,7 @@ describe("Category Unit Tests", () => {
     data.forEach((i) => {
       const category = new Category(i.props, i.id as any);
       expect(category.id).not.toBeNull();
-      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId)
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
   });
 
@@ -135,6 +141,29 @@ describe("Category Unit Tests", () => {
     });
     expect(category.created_at).toBe(created_at);
   });
-});
+  it("should update a category", () => {
+    const category = new Category({ name: "Movie" });
+    category.update("Documentary", "some description");
+    expect(Category.validate).toHaveBeenCalledTimes(2);
+    expect(category.name).toBe("Documentary");
+    expect(category.description).toBe("some description");
+  });
 
-//
+  it("should active a category", () => {
+    const category = new Category({
+      name: "Filmes",
+      is_active: false,
+    });
+    category.activate();
+    expect(category.is_active).toBeTruthy();
+  });
+
+  test("should disable a category", () => {
+    const category = new Category({
+      name: "Filmes",
+      is_active: true,
+    });
+    category.deactivate();
+    expect(category.is_active).toBeFalsy();
+  });
+});
