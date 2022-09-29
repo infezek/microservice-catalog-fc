@@ -9,7 +9,11 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "paths": {
+      "@seedwork/*": ["./@seedwork/*"]
+    }
   },
   "include": ["src/"]
 }
