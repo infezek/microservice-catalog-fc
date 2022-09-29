@@ -11,12 +11,16 @@ export type CategoryProperties = {
 };
 
 export class Category extends Entity<CategoryProperties> {
-  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-    Category.validate(props);
+  constructor(
+    public readonly props: CategoryProperties,
+    id?: UniqueEntityId
+  ) {
     super(props, id);
+    Category.validate(props);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
-    this.props.created_at = this.props.created_at ?? new Date();
+    this.props.created_at =
+      this.props.created_at ?? new Date();
   }
 
   update(name: string, description: string) {
@@ -35,15 +39,6 @@ export class Category extends Entity<CategoryProperties> {
       throw new EntityValidationError(validator.errors);
     }
   }
-
-  // static validate(props: Omit<CategoryProperties, "created_at">) {
-  //   ValidatorRules.values(props.name, "name")
-  //     .required()
-  //     .string()
-  //     .maxLength(255);
-  //   ValidatorRules.values(props.description, "description").string();
-  //   ValidatorRules.values(props.is_active, "is_active").boolean();
-  // }
 
   activate() {
     this.props.is_active = true;
