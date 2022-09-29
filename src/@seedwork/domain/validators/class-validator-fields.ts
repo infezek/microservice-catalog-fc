@@ -3,8 +3,9 @@ import ValidatorFieldsInterface, {
   FieldsErrors,
 } from "./validator-fields-interface";
 
-export default abstract class ClassValidatorFields<PropsValidated>
-  implements ValidatorFieldsInterface<PropsValidated>
+export default abstract class ClassValidatorFields<
+  PropsValidated
+> implements ValidatorFieldsInterface<PropsValidated>
 {
   errors: FieldsErrors = null;
   validateData: PropsValidated = null;
@@ -15,7 +16,9 @@ export default abstract class ClassValidatorFields<PropsValidated>
       this.errors = {};
       for (const error of errors) {
         const field = error.property;
-        this.errors[field] = Object.values(error.constraints);
+        this.errors[field] = Object.values(
+          error.constraints
+        );
       }
     } else {
       this.validateData = data;
