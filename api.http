@@ -1,0 +1,23 @@
+GET http://localhost:3000/categories
+
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name": "Movie teste"
+}
+
+###
+GET http://localhost:3000/categories/cc4d15a8-3d50-4361-94cb-95741575a50a
+
+### 
+PATCH http://localhost:3000/categories/cc4d15a8-3d50-4361-94cb-95741575a50a
+Content-Type: application/json
+
+{
+    "name": "Movie teste"
+}
+
+###
+DELETE  http://localhost:3000/categories/cc4d15a8-3d50-4361-94cb-95741575a50a
