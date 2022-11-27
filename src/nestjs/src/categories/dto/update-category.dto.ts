@@ -1,8 +1,6 @@
-import { UpdateCategory } from '@fc/core/dist/category/application';
+import { UpdateCategory } from '@fc/core/category/application';
+import { CreateCategoryDto } from './create-category.dto';
 
-export class UpdateCategoryDto implements Omit<UpdateCategory.Input, 'id'> {
-  id: string;
-  name: string;
-  description?: string;
-  is_active?: boolean;
-}
+export class UpdateCategoryDto
+  extends CreateCategoryDto
+  implements Omit<UpdateCategory.Input, 'id'> { }
