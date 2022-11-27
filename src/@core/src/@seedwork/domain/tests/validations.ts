@@ -1,6 +1,6 @@
 import ClassValidatorFields from "../validators/class-validator-fields";
 import { FieldsErrors } from "../validators/validator-fields-interface";
-import { objectContaining } from "expect";
+import { expect } from '@jest/globals';
 import { EntityValidationError } from "../errors/validation-error";
 
 type Expected =
@@ -38,15 +38,15 @@ function assertContainsErrorsMessages(
   expected: FieldsErrors,
   received: FieldsErrors
 ) {
-  const isMatch = objectContaining(received).asymmetricMatch(expected);
+  const isMatch = expect.objectContaining(received).asymmetricMatch(expected);
 
   return isMatch
     ? { pass: true, message: () => "" }
     : {
-        pass: false,
-        message: () =>
-          `The validation errors not contains ${JSON.stringify(
-            received
-          )}. Current: ${JSON.stringify(expected)}`,
-      };
+      pass: false,
+      message: () =>
+        `The validation errors not contains ${JSON.stringify(
+          received
+        )}. Current: ${JSON.stringify(expected)}`,
+    };
 }
