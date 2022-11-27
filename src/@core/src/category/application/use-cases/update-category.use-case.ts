@@ -13,7 +13,7 @@ export namespace UpdateCategory {
     description?: string;
     is_active?: boolean;
   };
-
+  export type Output = CategoryOutput;
   export class UseCase
     implements UseCaseDefault<Input, CategoryOutput>
   {
