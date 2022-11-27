@@ -1,4 +1,5 @@
 import {
+  CategoryOutput,
   CreateCategory,
   DeleteCategory,
   GetCategory,
@@ -15,15 +16,22 @@ import {
   Delete,
   Query,
   Inject,
+  Put,
+  HttpCode,
+  ParseUUIDPipe,
 } from '@nestjs/common';
+import { WrapperDataInterceptor } from '../@share/interceptors/wrapper-data.interceptor';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { SearchCategoryDto } from './dto/search-categories.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { CategoryPresenter } from './presenter/category.presenter';
+import {
+  CategoryCollectionPresenter,
+  CategoryPresenter,
+} from './presenter/category.presenter';
 
 @Controller('categories')
 export class CategoriesController {
-  constructor() {}
+  constructor() { }
   @Inject(CreateCategory.UseCase)
   private createUseCase: CreateCategory.UseCase;
 
@@ -46,25 +54,40 @@ export class CategoriesController {
   }
 
   @Get()
-  search(@Query() searchParams: SearchCategoryDto) {
-    return this.listUseCase.execute(searchParams);
+  async search(@Query() searchParams: SearchCategoryDto) {
+    const output = await this.listUseCase.execute(searchParams);
+    return new CategoryCollectionPresenter(output);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.getUseCase.execute({ id });
+  async findOne(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
+  ) {
+    const output = await this.getUseCase.execute({ id });
+    return new CategoryPresenter(output);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
+  @Put(':id')
+  async update(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.updateUseCase.execute({ id, ...updateCategoryDto });
+    const output = await this.updateUseCase.execute({
+      id,
+      ...updateCategoryDto,
+    });
+    return new CategoryPresenter(output);
   }
 
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
+  ) {
     return this.deleteUseCase.execute({ id });
+  }
+
+  static categoryToResponse(output: CategoryOutput) {
+    return new CategoryPresenter(output);
   }
 }
