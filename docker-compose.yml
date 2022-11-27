@@ -10,5 +10,26 @@ services:
     ports:
       - 3030:3030
 
+  db:
+    image: mysql:8.0.30-debian
+    profiles:
+      - dev
+    container_name: micro-video-typescript-db
+    environment:
+      - MYSQL_DATABASE=micro_videos
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql:delegated
+    security_opt:
+      - seccomp:unconfined
+  
   db_test:
-    
+    image: mysql:8.0.30-debian
+    container_name: micro-video-typescript-db-test
+    environment:
+      - MYSQL_DATABASE=micro_videos_test
+      - MYSQL_ROOT_PASSWORD=root
+    tmpfs:
+      - /var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
