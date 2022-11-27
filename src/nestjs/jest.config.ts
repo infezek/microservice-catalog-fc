@@ -5,7 +5,6 @@ export default {
   },
 
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: 'src',
   testRegex: '.*\\..*spec\\.ts$',
   transform: {
     '^.+\\.ts?$': ['@swc/jest'],
@@ -14,13 +13,12 @@ export default {
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '@fc/core/(.*)$': '<rootDir>/../../../node_modules/@fc/core/dist/$1',
+    '@fc/core/(.*)$': '<rootDir>/../../node_modules/@fc/core/dist/$1',
     '#seedwork/(.*)$':
-      '<rootDir>/../../../node_modules/@fc/core/dist/@seedwork/$1',
-    '#category/(.*)$':
-      '<rootDir>/../../../node_modules/@fc/core/dist/category/$1',
+      '<rootDir>/../../node_modules/@fc/core/dist/@seedwork/$1',
+    '#category/(.*)$': '<rootDir>/../../node_modules/@fc/core/dist/category/$1',
   },
-  setupFilesAfterEnv: ['../../@core/src/@seedwork/domain/tests/jest.ts'],
+  setupFilesAfterEnv: ['../@core/src/@seedwork/domain/tests/jest.ts'],
   coverageThreshold: {
     global: {
       statements: 80,
