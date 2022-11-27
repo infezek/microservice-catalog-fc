@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test -w @fc/core && npm run test -w nestjs",
+    "test": "jest --runInBand",
     "prestart:dev": "npm run build -w @fc/core",
-    "start:dev": "npm run build:w -w @fc/core & npm run start:dev -w nestjs"
+    "start:dev": "npm run build:w -w @fc/core & npm run start:dev -w nestjs",
+    "cti:core": "npm run cti:make -w @fc/core",
+    "build:core": "npm run build -w @fc/core"
   },
   "workspaces": [
     "./src/@core",
@@ -22,8 +24,5 @@
   "bugs": {
     "url": "https://github.com/infezek/microservice-catalog-fc/issues"
   },
-  "homepage": "https://github.com/infezek/microservice-catalog-fc#readme",
-  "dependencies": {
-    "sqlite3": "^5.1.2"
-  }
+  "homepage": "https://github.com/infezek/microservice-catalog-fc#readme"
 }
